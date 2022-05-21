@@ -1,19 +1,14 @@
 class Solution {
 public:
     bool check(vector<vector<int>> &graph, vector<int> &color, int node){
-        queue<int> q;
-        q.push(node);
-        color[node] = 1;       
-        while(!q.empty()){
-            int t= q.front();
-            q.pop();
-            for(int x:graph[t]){
-                if(color[x] == -1){
-                    color[x] = 1-color[t];
-                    q.push(x);
-                }
-                else if(color[x] == color[t]) return false;
+        if(color[node]==-1) color[node] = 1;
+        
+        for(int x: graph[node]){
+            if(color[x]==-1){
+                color[x] = 1-color[node];
+                if(!check(graph, color, x)) return false;
             }
+            else if(color[x]==color[node]) return false;
         }
         return true;
     }
