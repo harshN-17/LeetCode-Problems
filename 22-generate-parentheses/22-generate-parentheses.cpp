@@ -11,17 +11,17 @@ public:
         //base case - when the total length becomes 2*n
         //check if the parentheses are balanced and add it to the res vector
         if(s.size()==2*n){
-            if(isValid(s))
-                res.push_back(s);
+            //if(isValid(s))
+            res.push_back(s);
             return;
         }
         
         //recusrion for '(' until its length becomes n
-        if(a<=n)
+        if(a<n)
             generateAll(n, res, s+'(', a+1, b);
         
         //recusrion for ')' until its length becomes n        
-        if(b<=n)
+        if(b<a)
             generateAll(n, res, s+')', a, b+1);   
     }
     
