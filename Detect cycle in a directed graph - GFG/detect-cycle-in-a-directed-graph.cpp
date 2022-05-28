@@ -5,30 +5,29 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
   public:
-    bool checkForCycle(int node, vector<int> &vis, vector<int> &vis2, vector<int> adj[]){
-        vis[node] = 1;
-        vis2[node] = 1;
-        for (auto it: adj[node]) {
-            if (!vis[it]) {
-                if (checkForCycle(it, vis, vis2, adj))
-                    return true;
-            }
-            else if (vis2[it])
-                return true;
-        }
-        vis2[node] = 0;
-        return false;
-    }
 
     bool isCyclic(int V, vector < int > adj[]) {
-        vector <int> vis(V, 0);
-        vector<int> vis2(V,0);
+        int cnt=0;
+        vector<int> indegree(V,0);
         for (int i = 0; i < V; i++) {
-            if (!vis[i]) {
-                if (checkForCycle(i, vis, vis2, adj)) return true;
+            for(int it: adj[i]){
+                indegree[it]++;
             }
         }
-        return false;
+        queue<int> q;
+
+        for(int i=0; i<V; i++)
+            if(!indegree[i]) q.push(i);
+            
+        while(!q.empty()){
+            int t = q.front();
+            q.pop();
+            cnt++;
+            for(auto it: adj[t]){
+                if(--indegree[it]==0) q.push(it);
+            }
+        }
+        return !(cnt==V) ;
     }
 };
 
