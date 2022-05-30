@@ -1,21 +1,23 @@
 class Solution {
 public:
-    void solve(vector<vector<int>>& rooms, vector<bool>& vis, int node){
-        //base-case
-        if(vis[node]) return;
-        
-        //mark visited
-        vis[node] = true;
-        
-        for(auto it: rooms[node]){
-            if(!vis[it]) solve(rooms, vis, it);
+    void solve(vector<vector<int>>& rooms, vector<bool>& vis){
+        queue<int> q;
+        q.push(0);
+        while(!q.empty()){
+            int node = q.front();
+            vis[node]= true;
+            q.pop();
+            for(auto it: rooms[node]){
+                if(!vis[it]) q.push(it);
+            }
         }
     }
     
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
         int n = rooms.size();
         vector<bool> vis(n,false);
-        solve(rooms, vis, 0);
+        solve(rooms, vis);
+        
         for(auto it: vis){
             if(!it) return false;
         }
