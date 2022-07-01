@@ -1,27 +1,36 @@
-class Solution {
+class Solution
+{
 public:
-    
-    void solve(string digits, vector<string> &mapping, string out, vector<string> &res, int index){
-        if(index == digits.size()){
-            res.push_back(out);
-            return;
-        }
-        
-        int d = digits[index]-'0';
-        string s = mapping[d];
-        for(int i=0;i<s.size();i++){
-            out += s[i];
-            solve(digits,mapping,out,res,index+1);
-            out.pop_back();
-        }
+    const vector<string> pad = {"", "", "abc", "def", "ghi", "jkl",
+                                "mno", "pqrs", "tuv", "wxyz"};
+    vector<string> letterCombinations(string s)
+    {
+        if (s == "")
+            return {};
+        else
+            return comb(s);
     }
-    vector<string> letterCombinations(string digits) {
-        
-        vector<string> mapping = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        vector<string> res;
-        if(digits.size()==0) return res;
-        string out;
-        solve(digits,mapping,out,res,0);
-        return res;
+    vector<string> comb(string s)
+    {
+        if (s.length() == 0)
+        {
+            vector<string> temp;
+            temp.push_back("");
+            return temp;
+        }
+        char first = s[0];
+        string t = s.substr(1);
+
+        vector<string> tempans = comb(t);
+        string chop = pad[first - '0'];
+        vector<string> r;
+        for (int i = 0; i < chop.length(); i++)
+        {
+            for (auto it : tempans)
+            {
+                r.push_back(chop[i] + it);
+            }
+        }
+        return r;
     }
 };
