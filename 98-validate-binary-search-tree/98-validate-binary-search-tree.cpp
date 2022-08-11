@@ -22,7 +22,7 @@ public:
             }
             root = st.top();
             st.pop();
-            if(prev != NULL && root->val <= prev->val) return false;
+            if(prev && prev->val >= root->val) return false;
             prev = root;
             root = root->right;
         }
